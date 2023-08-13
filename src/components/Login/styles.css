@@ -1,0 +1,198 @@
+/* LOGIN PAGE GENERAL STYLING */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vh;
+  padding: 10px;
+}
+
+/* LOGO */
+
+.login-logo {
+  width: 249px;
+  fill: transparent;
+  background: transparent;
+}
+
+/* LOGIN / SIGNUP BUTTONS */
+
+.login-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+  margin: 60px 0;
+}
+
+.login-btn,
+.signup-btn {
+  width: 50%;
+  height: 84px;
+  border: 1px solid #fff;
+  border-radius: 30px 0 0 30px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #000;
+  color: #363636;
+}
+
+.active {
+  width: 50%;
+  height: 84px;
+  border: 1px solid #fff;
+  border-radius: 30px 0 0 30px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+}
+
+.signup-btn {
+  border-radius: 0 30px 30px 0;
+}
+
+.signup-btn .active {
+  border-radius: 0 30px 30px 0;
+}
+
+
+
+/* LOGIN / SIGNUP FORM */
+
+.login-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 561px;
+  height: 423px;
+  background-color: #141414;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.login-form-container > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 20px;
+}
+
+.login-form-container > form > label {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+#login,
+#password {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 5px;
+  background-color: #696969;
+  font-size: 20px;
+  font-weight: 400;
+  caret-color: #5e548e;
+}
+
+#login::placeholder,
+#password::placeholder {
+  color: #c6c6c6;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#login:focus,
+#password:focus {
+  outline: none;
+}
+
+#login:focus::placeholder,
+#password:focus::placeholder {
+  opacity: 0.5;
+  transition: 0.2s ease all;
+}
+
+/* LOGIN / SIGNUP ACTION BUTTON */
+
+.login-action-btn {
+  width: 211px;
+  height: 68px;
+  justify-self: center;
+  background-color: #d9d9d9;
+  color: #000;
+  border: none;
+  border-radius: 15px;
+  margin: 0 auto;
+  cursor: pointer;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+/* TOGGLE BUTTON */
+
+.toggle-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-container p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 29px;
+  height: 16px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #8e8d90;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  width: 12px;
+  height: 12px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #fefefe;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.toggle input:checked + .toggle-slider {
+  background-color: #5e548e;
+}
+
+.toggle input:checked + .toggle-slider:before {
+  transform: translateX(12px);
+}
