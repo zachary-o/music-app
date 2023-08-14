@@ -1,0 +1,16 @@
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+img {
+  width: 200px;
+  height: 73px;
+  color: aquamarine;
+}
+
+
+.sidebar-container h1 {
+  color: red
+}

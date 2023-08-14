@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import { IUser, ILoggedUser } from "./interfaces";
 import getUsers from "./utils/getUsers";
 
+import Layout from "./components/LayoutPage/Layout";
+import HomePage from "./components/HomePage/HomePage";
 import Login from "./components/Login/Login";
 
 const App: FC = () => {
@@ -34,6 +36,9 @@ const App: FC = () => {
   return (
     <div className="wrapper">
       <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+        </Route>
         <Route
           path="/login"
           element={<Login allUsers={allUsers} setAllUsers={setAllUsers} />}
