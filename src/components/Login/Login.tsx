@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IUser, LoginProps } from "../../interfaces";
+import { IUser, ILoginProps } from "../../interfaces";
 
 import registerUser from "../../utils/registerUser";
 
 import "./styles.css";
 import logo from "../../assets/logo.png";
 
-const Login: FC<LoginProps> = ({ allUsers, setAllUsers }) => {
+const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
   const [authType, setAuthType] = useState<boolean>(true);
   const [rememberAcc, setRememberAcc] = useState<boolean>(false);
   const [formData, setFormData] = useState({
@@ -50,6 +50,7 @@ const Login: FC<LoginProps> = ({ allUsers, setAllUsers }) => {
     ) {
       setAuthType(true);
       setFormData({ userName: "", password: "" });
+      sessionStorage.setItem("sessionStorageUser", JSON.stringify(formData));
       navigate("/");
     }
     if (
@@ -59,7 +60,7 @@ const Login: FC<LoginProps> = ({ allUsers, setAllUsers }) => {
     ) {
       setAuthType(true);
       setFormData({ userName: "", password: "" });
-      localStorage.setItem("loggedUser", JSON.stringify(formData));
+      localStorage.setItem("localStorageUser", JSON.stringify(formData));
       navigate("/");
     }
   };
@@ -92,6 +93,7 @@ const Login: FC<LoginProps> = ({ allUsers, setAllUsers }) => {
       setAllUsers((prevUsers) => [...prevUsers, newUser]);
       setFormData({ userName: "", password: "" });
       setAuthType(true);
+      sessionStorage.setItem("sessionStorageUser", JSON.stringify(newUser));
       try {
         const user = await registerUser(newUser);
         navigate("/");
@@ -108,7 +110,7 @@ const Login: FC<LoginProps> = ({ allUsers, setAllUsers }) => {
       setAllUsers((prevUsers) => [...prevUsers, newUser]);
       setFormData({ userName: "", password: "" });
       setAuthType(true);
-      localStorage.setItem("loggedUser", JSON.stringify(newUser));
+      localStorage.setItem("localStorageUser", JSON.stringify(newUser));
       try {
         const user = await registerUser(newUser);
         navigate("/");

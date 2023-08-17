@@ -1,0 +1,45 @@
+.song-card-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 273px;
+  background-color: #433f48;
+  border-radius: 10px;
+}
+
+.album-cover {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px 10px 0 0;
+}
+
+.song-info-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.song-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.song-info h5 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.song-info p {
+  font-size: 10px;
+  font-weight: 200;
+  color: #7c7c7c;
+}

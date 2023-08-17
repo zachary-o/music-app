@@ -13,10 +13,18 @@ export interface ILoggedUser {
 export interface ISong {
   id: string;
   title: string;
-  url: string;
+  albumName: string;
+  songUrl: string;
+  coverUrl: string;
+  artist: string;
 }
 
-export interface LoginProps {
+export interface ILoginProps {
   allUsers: IUser[];
   setAllUsers: React.Dispatch<React.SetStateAction<IUser[]>>;
+}
+
+export interface IHomePageProps {
+  allSongs: ISong[];
+  loggedUser: ILoggedUser;
 }
