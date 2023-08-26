@@ -1,35 +1,36 @@
 import React, { useState, useEffect, FC } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { IUser, ILoggedUser, ISong } from "./interfaces";
 import getUsers from "./utils/getUsers";
-import getSongs from "./utils/getSongs";
 
 import Layout from "./components/LayoutPage/Layout";
 import HomePage from "./components/HomePage/HomePage";
 import Login from "./components/Login/Login";
 
+import data from "./data.json";
+
 const App: FC = () => {
-  const [allUsers, setAllUsers] = useState<IUser[]>([]);
-  const [allSongs, setAllSongs] = useState<ISong[]>([]);
+  const [allUsers, setAllUsers] = useState<IUser[] | null>(null);
+  const [allSongs, setAllSongs] = useState<ISong[]>(data);
   const [loggedUser, setLoggedUser] = useState<ILoggedUser>({
     userName: "",
     password: "",
   });
 
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const navigate = useNavigate();
+
   // GET ALL USERS AND SONGS ON APP LOAD
   useEffect(() => {
     const fetchUsers = async () => {
-      const users: IUser[] = await getUsers();
-      setAllUsers(users);
+      const users: IUser[] | null = await getUsers();
+      if (users !== null) {
+        setAllUsers(users);
+      }
     };
     fetchUsers();
-
-    const fetchSongs = async () => {
-      const songs: ISong[] = await getSongs();
-      setAllSongs(songs);
-    };
-    fetchSongs();
   }, []);
 
   // GET LOCALSTORAGE OR SESSIONSTORAGE
@@ -42,19 +43,38 @@ const App: FC = () => {
     if (savedUser && sessionUser) {
       setLoggedUser(JSON.parse(savedUser));
     }
-  }, []);
+  }, [navigate]);
 
-  console.log("loggeduser", loggedUser);
-  console.log("allUsers", allUsers);
+  // console.log("allUsers", allUsers);
   console.log("allSongs", allSongs);
+
 
   return (
     <div className="wrapper">
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route
+          path="/"
+          element={
+            <Layout
+              loggedUser={loggedUser}
+              allUsers={allUsers}
+              allSongs={allSongs}
+              isShowModal={isShowModal}
+              setIsShowModal={setIsShowModal}
+            />
+          }
+        >
           <Route
             index
-            element={<HomePage allSongs={allSongs} loggedUser={loggedUser} />}
+            element={
+              <HomePage
+                allSongs={allSongs}
+                loggedUser={loggedUser}
+                setIsShowModal={setIsShowModal}
+                allUsers={allUsers}
+                setAllUsers={setAllUsers}
+              />
+            }
           />
         </Route>
         <Route

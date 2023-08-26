@@ -87,3 +87,9 @@
   font-weight: 300;
   cursor: pointer;
 }
+
+.favorites-logged p {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 300;
+}

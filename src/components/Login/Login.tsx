@@ -44,24 +44,24 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
       return;
     }
     if (
-      allUsers.find((user) => user.userName === formData.userName) &&
-      allUsers.find((user) => user.password === formData.password) &&
+      allUsers?.find((user) => user.userName === formData.userName) &&
+      allUsers?.find((user) => user.password === formData.password) &&
       !rememberAcc
     ) {
-      setAuthType(true);
-      setFormData({ userName: "", password: "" });
       sessionStorage.setItem("sessionStorageUser", JSON.stringify(formData));
+      setFormData({ userName: "", password: "" });
       navigate("/");
+      setAuthType(true);
     }
     if (
-      allUsers.find((user) => user.userName === formData.userName) &&
-      allUsers.find((user) => user.password === formData.password) &&
+      allUsers?.find((user) => user.userName === formData.userName) &&
+      allUsers?.find((user) => user.password === formData.password) &&
       rememberAcc
     ) {
-      setAuthType(true);
-      setFormData({ userName: "", password: "" });
       localStorage.setItem("localStorageUser", JSON.stringify(formData));
+      setFormData({ userName: "", password: "" });
       navigate("/");
+      setAuthType(true);
     }
   };
 
@@ -76,7 +76,7 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
       setAuthStatus("Password must be at least 6 characters");
       return;
     }
-    if (allUsers.find((user) => user.userName === formData.userName)) {
+    if (allUsers?.find((user) => user.userName === formData.userName)) {
       setAuthStatus("User already exists");
       return;
     }
@@ -90,9 +90,7 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
         userName: formData?.userName,
         password: formData?.password,
       };
-      setAllUsers((prevUsers) => [...prevUsers, newUser]);
-      setFormData({ userName: "", password: "" });
-      setAuthType(true);
+      setAllUsers((prevUsers) => [...(prevUsers || []), newUser]);
       sessionStorage.setItem("sessionStorageUser", JSON.stringify(newUser));
       try {
         const user = await registerUser(newUser);
@@ -102,14 +100,14 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
         throw error;
       }
     }
+    setAuthType(true);
+    setFormData({ userName: "", password: "" });
     if (formData && rememberAcc) {
       const newUser = {
         userName: formData?.userName,
         password: formData?.password,
       };
-      setAllUsers((prevUsers) => [...prevUsers, newUser]);
-      setFormData({ userName: "", password: "" });
-      setAuthType(true);
+      setAllUsers((prevUsers) => [...(prevUsers || []), newUser]);
       localStorage.setItem("localStorageUser", JSON.stringify(newUser));
       try {
         const user = await registerUser(newUser);
@@ -119,6 +117,8 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
         throw error;
       }
     }
+    setAuthType(true);
+    setFormData({ userName: "", password: "" });
   };
 
   return (

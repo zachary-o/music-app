@@ -1,0 +1,19 @@
+.player-container-active {
+  margin: 0;
+  padding: 20px;
+  width: 100vw;
+  height: 130px;
+  background-color: #272727;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  z-index: 1;
+  bottom: -20px;
+}
+
+.close-modal-icon {
+  width: 36px;
+  height: 36px;
+}

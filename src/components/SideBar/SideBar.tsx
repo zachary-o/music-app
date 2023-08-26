@@ -1,13 +1,24 @@
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import LikedSong from "../LikedSong/LikedSong";
+
+import { ISideBadProps, ISong, IUser } from "../../interfaces";
 import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 import logo from "../../assets/logo.png";
 
 import "./styles.css";
 
-const SideBar = () => {
+const SideBar: FC<ISideBadProps> = ({ loggedUser, allUsers, allSongs }) => {
   const navigate = useNavigate();
+
+  const neededUser: IUser | null =
+    allUsers?.find((user) => user.userName === loggedUser.userName) || null;
+
+  const neededSongs: ISong[] = neededUser?.favorites
+    ? allSongs.filter((song) => neededUser.favorites?.includes(song.id))
+    : [];
 
   return (
     <aside className="sidebar-container">
@@ -23,11 +34,24 @@ const SideBar = () => {
         </div>
       </section>
       <section className="favorites-container">
-        <div className="favorites-unlogged">
-          <h2>Your favorites:</h2>
-          <p>You need to log in to save your favorite songs</p>
-          <button onClick={() => navigate("/login")}>Let's go</button>
-        </div>
+        {loggedUser.userName.trim() !== "" ? (
+          <div className="favorites-logged">
+            <h2>Your favorites:</h2>
+            <p>Like your favorite songs to save them here.</p>
+
+            <div className="favorites-list">
+              {neededSongs.map((song) => (
+                <LikedSong {...song} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="favorites-unlogged">
+            <h2>Your favorites:</h2>
+            <p>You need to log in to save your favorite songs</p>
+            <button onClick={() => navigate("/login")}>Let's go</button>
+          </div>
+        )}
       </section>
     </aside>
   );
