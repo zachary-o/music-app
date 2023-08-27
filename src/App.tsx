@@ -17,12 +17,12 @@ const App: FC = () => {
     userName: "",
     password: "",
   });
-
   const [isShowModal, setIsShowModal] = useState(false);
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
-  // GET ALL USERS AND SONGS ON APP LOAD
+  // GET ALL USERS ON APP LOAD
   useEffect(() => {
     const fetchUsers = async () => {
       const users: IUser[] | null = await getUsers();
@@ -33,7 +33,7 @@ const App: FC = () => {
     fetchUsers();
   }, []);
 
-  // GET LOCALSTORAGE OR SESSIONSTORAGE
+  // GET LOCALSTORAGE OR SESSIONSTORAGE USER
   useEffect(() => {
     const savedUser = localStorage.getItem("localStorageUser");
     const sessionUser = sessionStorage.getItem("sessionStorageUser");
@@ -48,7 +48,6 @@ const App: FC = () => {
   // console.log("allUsers", allUsers);
   console.log("allSongs", allSongs);
 
-
   return (
     <div className="wrapper">
       <Routes>
@@ -61,6 +60,8 @@ const App: FC = () => {
               allSongs={allSongs}
               isShowModal={isShowModal}
               setIsShowModal={setIsShowModal}
+              currentlyPlaying={currentlyPlaying}
+              setCurrentlyPlaying={setCurrentlyPlaying}
             />
           }
         >
@@ -73,6 +74,8 @@ const App: FC = () => {
                 setIsShowModal={setIsShowModal}
                 allUsers={allUsers}
                 setAllUsers={setAllUsers}
+                currentlyPlaying={currentlyPlaying}
+                setCurrentlyPlaying={setCurrentlyPlaying}
               />
             }
           />

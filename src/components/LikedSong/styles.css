@@ -1,0 +1,78 @@
+.favorite-song-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px;
+  background-color: #433f48;
+}
+
+.cover-song-info {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.cover-container-favs {
+  position: relative;
+}
+
+.favorite-song-container img {
+  width: 79px;
+  height: 79px;
+  border-radius: 15px 0 0 15px;
+}
+
+.play-pause-icons-favs {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 41px;
+  height: 41px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.play-pause-icons-favs:hover {
+  opacity: 1;
+}
+
+.play-pause-icons-favs .play-cover-favs,
+.play-pause-icons-favs .pause-cover-favs {
+  width: 24px;
+  height: 24px;
+  color: #231942;
+}
+
+.artist-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.artist-title p:first-child {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.artist-title p:last-child {
+  font-size: 20px;
+  font-weight: 300;
+  word-break: normal;
+}
+
+.favorite-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+  cursor: pointer;
+}

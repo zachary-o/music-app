@@ -5,12 +5,35 @@
   height: 130px;
   background-color: #272727;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   position: absolute;
   z-index: 1;
   bottom: -20px;
+}
+
+.music-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+}
+
+.modal-cover img {
+  width: 98px;
+  height: 98px;
+}
+
+.navigation-icon {
+  width: 35px;
+  height: 35px;
+}
+
+.big {
+  width: 50px;
+  height: 50px;
+  color: red;
 }
 
 .close-modal-icon {

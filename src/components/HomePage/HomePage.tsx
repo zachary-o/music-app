@@ -12,9 +12,9 @@ const HomePage: FC<IHomePageProps> = ({
   setIsShowModal,
   allUsers,
   setAllUsers,
+  currentlyPlaying,
+  setCurrentlyPlaying,
 }) => {
-  const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
-
   const navigate = useNavigate();
 
   console.log("loggeduser", loggedUser);

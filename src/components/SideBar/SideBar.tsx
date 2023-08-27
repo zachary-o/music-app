@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import LikedSong from "../LikedSong/LikedSong";
@@ -10,15 +10,26 @@ import logo from "../../assets/logo.png";
 
 import "./styles.css";
 
-const SideBar: FC<ISideBadProps> = ({ loggedUser, allUsers, allSongs }) => {
+const SideBar: FC<ISideBadProps> = ({
+  loggedUser,
+  allUsers,
+  allSongs,
+  currentlyPlaying,
+  setCurrentlyPlaying,
+  setIsShowModal,
+}) => {
+  const [favorites, setFavorites] = useState<ISong[] | null>(null);
   const navigate = useNavigate();
 
   const neededUser: IUser | null =
     allUsers?.find((user) => user.userName === loggedUser.userName) || null;
 
-  const neededSongs: ISong[] = neededUser?.favorites
-    ? allSongs.filter((song) => neededUser.favorites?.includes(song.id))
-    : [];
+  useEffect(() => {
+    const neededSongs: ISong[] = neededUser?.favorites
+      ? allSongs.filter((song) => neededUser.favorites?.includes(song.id))
+      : [];
+    setFavorites(neededSongs);
+  }, [neededUser]);
 
   return (
     <aside className="sidebar-container">
@@ -40,8 +51,13 @@ const SideBar: FC<ISideBadProps> = ({ loggedUser, allUsers, allSongs }) => {
             <p>Like your favorite songs to save them here.</p>
 
             <div className="favorites-list">
-              {neededSongs.map((song) => (
-                <LikedSong {...song} />
+              {favorites?.map((song) => (
+                <LikedSong
+                  {...song}
+                  currentlyPlaying={currentlyPlaying}
+                  setCurrentlyPlaying={setCurrentlyPlaying}
+                  setIsShowModal={setIsShowModal}
+                />
               ))}
             </div>
           </div>

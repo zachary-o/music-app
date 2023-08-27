@@ -13,7 +13,9 @@ const Layout: FC<ILayoutProps> = ({
   isShowModal,
   setIsShowModal,
   allUsers,
-  allSongs
+  allSongs,
+  currentlyPlaying,
+  setCurrentlyPlaying,
 }) => {
   return (
     <div className="layout-container">
@@ -21,12 +23,16 @@ const Layout: FC<ILayoutProps> = ({
         loggedUser={loggedUser}
         allUsers={allUsers}
         allSongs={allSongs}
+        currentlyPlaying={currentlyPlaying}
+        setCurrentlyPlaying={setCurrentlyPlaying}
+        setIsShowModal={setIsShowModal}
       />
       <Outlet />
       {isShowModal && (
         <PlayerModal
           isShowModal={isShowModal}
           setIsShowModal={setIsShowModal}
+          setCurrentlyPlaying={setCurrentlyPlaying}
         />
       )}
     </div>

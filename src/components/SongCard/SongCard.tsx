@@ -71,7 +71,7 @@ const SongCard: FC<ISongCardProps> = ({
         </div>
         <HeartIcon
           className="like-icon"
-          onClick={() => addToFavorites(neededUser?.id ?? "", id)}
+          onClick={() => addToFavorites(neededUser?.id || "", id)}
         />
       </div>
     </div>
