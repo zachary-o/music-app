@@ -53,6 +53,7 @@ const SideBar: FC<ISideBadProps> = ({
             <div className="favorites-list">
               {favorites?.map((song) => (
                 <LikedSong
+                  key={song.id}
                   {...song}
                   currentlyPlaying={currentlyPlaying}
                   setCurrentlyPlaying={setCurrentlyPlaying}

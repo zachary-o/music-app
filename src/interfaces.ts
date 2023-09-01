@@ -72,7 +72,9 @@ export interface ISongCardProps {
 export interface IPlayerModalProps {
   isShowModal: boolean;
   setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  currentlyPlaying: string | null;
   setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
+  allSongs: ISong[];
 }
 
 export interface ILikedSongProps {

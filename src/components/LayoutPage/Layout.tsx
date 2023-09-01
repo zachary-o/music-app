@@ -32,7 +32,9 @@ const Layout: FC<ILayoutProps> = ({
         <PlayerModal
           isShowModal={isShowModal}
           setIsShowModal={setIsShowModal}
+          currentlyPlaying={currentlyPlaying}
           setCurrentlyPlaying={setCurrentlyPlaying}
+          allSongs={allSongs}
         />
       )}
     </div>
