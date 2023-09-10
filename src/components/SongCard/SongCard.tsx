@@ -1,7 +1,15 @@
-import { FC, ReactNode, useState } from "react";
-import { ISong, ISongCardProps, IUser } from "../../interfaces";
+import { FC } from "react";
 
-import updateUser from "../../utils/updateUser";
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
+import {
+  setIsShowModal,
+  setIsPlaying,
+  setCurrentSong,
+} from "../../redux/features/song/songSlice";
+
+import { handleFavSong } from "../../redux/features/user/userSlice";
+
+import { ISong, ISongCardProps } from "../../interfaces";
 
 import { PlayIcon, PauseIcon, HeartIcon } from "@heroicons/react/24/outline";
 
@@ -15,48 +23,37 @@ const SongCard: FC<ISongCardProps> = ({
   coverUrl,
   artist,
   allSongs,
-  setIsShowModal,
-  allUsers,
-  setAllUsers,
-  loggedUser,
-  currentlyPlaying,
-  setCurrentlyPlaying,
 }) => {
+  const { isPlaying, isCurrentlyPlaying, isShowModal } = useAppSelector(
+    (state) => state.song
+  );
+  const dispatch = useAppDispatch();
+
   // TOGGLE PLAY PAUSE ICONS ON CLICK
-  const isCurrentlyPlaying: boolean = currentlyPlaying === id;
   const togglePlaying = () => {
     if (isCurrentlyPlaying) {
-      setCurrentlyPlaying(null);
+      dispatch(setIsPlaying(null));
     } else {
-      setCurrentlyPlaying(id);
-      setIsShowModal(true);
+      dispatch(setIsPlaying(id));
+      dispatch(setIsShowModal(true));
+      const currentSongPayload = {
+        id,
+        title,
+        albumName,
+        songUrl,
+        coverUrl,
+        artist,
+      };
+      dispatch(setCurrentSong(currentSongPayload));
     }
   };
-
-  // ADD SONG TO FAVORITES
-  const neededUser = allUsers?.find(
-    (user) => user.userName === loggedUser.userName
-  );
-  const addToFavorites = async (userId: string, songId: string) => {
-    try {
-      if (neededUser) {
-        const updatedFavorites: IUser | null = await updateUser(userId, songId);
-        return updatedFavorites;
-      }
-    } catch (error) {
-      return null;
-    }
-  };
-
-  // HEART ICON STYLE DEPENDING WHETHER IT IS LIKED OR NOT
-  const likeBtnStyle = () => {};
 
   return (
     <div className="song-card-container">
       <div className="cover-container">
         <img src={coverUrl} alt="album-cover" className="album-cover" />
         <div className="play-pause-icons" onClick={togglePlaying}>
-          {isCurrentlyPlaying ? (
+          {isPlaying === id ? (
             <PauseIcon className="pause-cover" />
           ) : (
             <PlayIcon className="play-cover" />
@@ -71,7 +68,7 @@ const SongCard: FC<ISongCardProps> = ({
         </div>
         <HeartIcon
           className="like-icon"
-          onClick={() => addToFavorites(neededUser?.id || "", id)}
+          onClick={() => dispatch(handleFavSong(id))}
         />
       </div>
     </div>

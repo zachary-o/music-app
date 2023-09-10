@@ -1,4 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
+
+import { useAppSelector } from "../../redux/app/hooks";
+
 import { useNavigate } from "react-router-dom";
 
 import { IHomePageProps } from "../../interfaces";
@@ -7,17 +10,10 @@ import SongCard from "../SongCard/SongCard";
 import "./styles.css";
 
 const HomePage: FC<IHomePageProps> = ({
-  allSongs,
-  loggedUser,
-  setIsShowModal,
-  allUsers,
-  setAllUsers,
-  currentlyPlaying,
-  setCurrentlyPlaying,
+  allSongs
 }) => {
   const navigate = useNavigate();
-
-  console.log("loggeduser", loggedUser);
+  const user = useAppSelector((state) => state.user.user);
 
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
@@ -27,9 +23,9 @@ const HomePage: FC<IHomePageProps> = ({
 
   return (
     <main className="homepage-container">
-      {loggedUser.userName.trim() !== "" ? (
+      {user.userName ? (
         <div className="logged-user-container">
-          <h2>Hello, {loggedUser.userName}</h2>
+          <h2>Hello, {user.userName}</h2>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
@@ -47,12 +43,6 @@ const HomePage: FC<IHomePageProps> = ({
               {...song}
               key={song.id}
               allSongs={allSongs}
-              setIsShowModal={setIsShowModal}
-              allUsers={allUsers}
-              setAllUsers={setAllUsers}
-              loggedUser={loggedUser}
-              currentlyPlaying={currentlyPlaying}
-              setCurrentlyPlaying={setCurrentlyPlaying}
             />
           ))}
         </div>

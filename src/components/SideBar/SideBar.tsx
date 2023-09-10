@@ -1,9 +1,12 @@
 import { FC, useEffect, useState } from "react";
+
+import { useAppSelector } from "../../redux/app/hooks";
+
 import { useNavigate } from "react-router-dom";
+import { ISideBadProps, ISong, IUser } from "../../interfaces";
 
 import LikedSong from "../LikedSong/LikedSong";
 
-import { ISideBadProps, ISong, IUser } from "../../interfaces";
 import { HomeIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 import logo from "../../assets/logo.png";
@@ -11,25 +14,14 @@ import logo from "../../assets/logo.png";
 import "./styles.css";
 
 const SideBar: FC<ISideBadProps> = ({
-  loggedUser,
-  allUsers,
-  allSongs,
-  currentlyPlaying,
-  setCurrentlyPlaying,
-  setIsShowModal,
+  allSongs
 }) => {
-  const [favorites, setFavorites] = useState<ISong[] | null>(null);
   const navigate = useNavigate();
 
-  const neededUser: IUser | null =
-    allUsers?.find((user) => user.userName === loggedUser.userName) || null;
-
-  useEffect(() => {
-    const neededSongs: ISong[] = neededUser?.favorites
-      ? allSongs.filter((song) => neededUser.favorites?.includes(song.id))
-      : [];
-    setFavorites(neededSongs);
-  }, [neededUser]);
+  const favoritesUser = useAppSelector((state) => state.user.user.favorites);
+  const favoriteSongs = allSongs.filter((song) =>
+    favoritesUser.some((songs) => songs === song.id)
+  );
 
   return (
     <aside className="sidebar-container">
@@ -45,19 +37,16 @@ const SideBar: FC<ISideBadProps> = ({
         </div>
       </section>
       <section className="favorites-container">
-        {loggedUser.userName.trim() !== "" ? (
+        {favoritesUser ? (
           <div className="favorites-logged">
             <h2>Your favorites:</h2>
             <p>Like your favorite songs to save them here.</p>
 
             <div className="favorites-list">
-              {favorites?.map((song) => (
+              {favoriteSongs?.map((song) => (
                 <LikedSong
                   key={song.id}
                   {...song}
-                  currentlyPlaying={currentlyPlaying}
-                  setCurrentlyPlaying={setCurrentlyPlaying}
-                  setIsShowModal={setIsShowModal}
                 />
               ))}
             </div>

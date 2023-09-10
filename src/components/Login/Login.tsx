@@ -1,124 +1,66 @@
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { IUser, ILoginProps } from "../../interfaces";
 
-import registerUser from "../../utils/registerUser";
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
+import { loginUser, registerUser } from "../../redux/features/user/userSlice";
+
+import { useNavigate } from "react-router-dom";
 
 import "./styles.css";
 import logo from "../../assets/logo.png";
 
-const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
+const Login: FC = () => {
   const [authType, setAuthType] = useState<boolean>(true);
   const [rememberAcc, setRememberAcc] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     userName: "",
     password: "",
   });
-  const [authStatus, setAuthStatus] = useState<AuthStatus>("");
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.user);
+  const errorMessage = useAppSelector((state) => state.user.error);
 
-  type AuthStatus =
-    | "User not found"
-    | "Login must be at least 6 characters"
-    | "Password must be at least 6 characters"
-    | "User already exists"
-    | "User successfully registered"
-    | "Enter credentials"
-    | "Logged in"
-    | "";
+  console.log("USER: ", user);
 
   // USER LOGIN FUNCTION
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-    if (formData.userName.length < 6) {
-      setAuthStatus("Login must be at least 6 characters");
-      return;
-    }
-    if (formData.password.length < 6) {
-      setAuthStatus("Password must be at least 6 characters");
-      return;
-    }
-    if (formData.userName.trim() === "" || formData.password.trim() === "") {
-      setAuthStatus("Enter credentials");
-      return;
-    }
-    if (
-      allUsers?.find((user) => user.userName === formData.userName) &&
-      allUsers?.find((user) => user.password === formData.password) &&
-      !rememberAcc
-    ) {
-      sessionStorage.setItem("sessionStorageUser", JSON.stringify(formData));
-      setFormData({ userName: "", password: "" });
-      navigate("/");
-      setAuthType(true);
-    }
-    if (
-      allUsers?.find((user) => user.userName === formData.userName) &&
-      allUsers?.find((user) => user.password === formData.password) &&
-      rememberAcc
-    ) {
-      localStorage.setItem("localStorageUser", JSON.stringify(formData));
-      setFormData({ userName: "", password: "" });
-      navigate("/");
-      setAuthType(true);
-    }
+
+    dispatch(
+      loginUser({
+        formData: { ...formData },
+        rememberAcc,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        setFormData({ userName: "", password: "" });
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   // USER REGISTER FUNCTION
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (formData.userName.length < 6) {
-      setAuthStatus("Login must be at least 6 characters");
-      return;
-    }
-    if (formData.password.length < 6) {
-      setAuthStatus("Password must be at least 6 characters");
-      return;
-    }
-    if (allUsers?.find((user) => user.userName === formData.userName)) {
-      setAuthStatus("User already exists");
-      return;
-    }
-    if (formData.userName.trim() === "" || formData.password.trim() === "") {
-      setAuthStatus("Enter credentials");
-      return;
-    }
-    if (formData && !rememberAcc) {
-      const newUser: IUser = {
-        id: "",
-        userName: formData?.userName,
-        password: formData?.password,
-      };
-      setAllUsers((prevUsers) => [...(prevUsers || []), newUser]);
-      sessionStorage.setItem("sessionStorageUser", JSON.stringify(newUser));
-      try {
-        const user = await registerUser(newUser);
+
+    dispatch(
+      registerUser({
+        formData: { ...formData },
+        rememberAcc,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        setFormData({ userName: "", password: "" });
         navigate("/");
-        return user;
-      } catch (error) {
-        throw error;
-      }
-    }
-    setAuthType(true);
-    setFormData({ userName: "", password: "" });
-    if (formData && rememberAcc) {
-      const newUser = {
-        userName: formData?.userName,
-        password: formData?.password,
-      };
-      setAllUsers((prevUsers) => [...(prevUsers || []), newUser]);
-      localStorage.setItem("localStorageUser", JSON.stringify(newUser));
-      try {
-        const user = await registerUser(newUser);
-        navigate("/");
-        return user;
-      } catch (error) {
-        throw error;
-      }
-    }
-    setAuthType(true);
-    setFormData({ userName: "", password: "" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
   return (
@@ -146,7 +88,8 @@ const Login: FC<ILoginProps> = ({ allUsers, setAllUsers }) => {
       </div>
       <div className="login-form-container">
         <form action="">
-          <p>{authStatus}</p>
+          {errorMessage && <div className="error">{errorMessage}</div>}
+
           <label htmlFor="login">Username / Email</label>
           <input
             type="text"

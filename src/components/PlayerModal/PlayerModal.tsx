@@ -1,4 +1,11 @@
 import { FC, useRef, useState } from "react";
+
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
+import {
+  setIsPlaying,
+  setIsShowModal,
+} from "../../redux/features/song/songSlice";
+
 import { IPlayerModalProps } from "../../interfaces";
 
 import {
@@ -12,13 +19,7 @@ import {
 
 import "./styles.css";
 
-const PlayerModal: FC<IPlayerModalProps> = ({
-  isShowModal,
-  setIsShowModal,
-  currentlyPlaying,
-  setCurrentlyPlaying,
-  allSongs,
-}) => {
+const PlayerModal: FC<IPlayerModalProps> = ({ allSongs }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressContainerRef = useRef<HTMLDivElement | null>(null);
@@ -30,15 +31,11 @@ const PlayerModal: FC<IPlayerModalProps> = ({
   const [duration, setDuration] = useState(0);
   const [playingSong, setPlayingSong] = useState(false);
 
-  // const isCurrentlyPlaying: boolean = currentlyPlaying === id;
-  // const togglePlaying = () => {
-  //   if (isCurrentlyPlaying) {
-  //     setCurrentlyPlaying(null);
-  //   } else {
-  //     setCurrentlyPlaying(id);
-  //     setIsShowModal(true);
-  //   }
-  // };
+  const { isShowModal, isPlaying } = useAppSelector((state) => state.song);
+  const { id, title, albumName, songUrl, coverUrl, artist } = useAppSelector(
+    (state) => state.song.currentSong
+  );
+  const dispatch = useAppDispatch();
 
   const playSong = () => {
     audioRef.current?.play();
@@ -63,8 +60,6 @@ const PlayerModal: FC<IPlayerModalProps> = ({
         playSong();
       }, 100);
     }
-
-    console.log(songIndex);
   };
 
   const nextSong = () => {
@@ -147,13 +142,13 @@ const PlayerModal: FC<IPlayerModalProps> = ({
     >
       <div className="music-container">
         <div className="modal-cover">
-          <img src={allSongs[songIndex].coverUrl} alt="" />
+          <img src={coverUrl} alt="" />
         </div>
-        <p>{allSongs[songIndex].title}</p>
+        <p>{title}</p>
         <div className="navigation-progress-container">
           <div className="navigation">
             <BackwardIcon className="navigation-icon" onClick={prevSong} />
-            {playingSong ? (
+            {isPlaying === id ? (
               <PlayIcon className="navigation-icon big" onClick={playSong} />
             ) : (
               <PauseIcon className="navigation-icon big" onClick={pauseSong} />
@@ -178,7 +173,7 @@ const PlayerModal: FC<IPlayerModalProps> = ({
         </div>
 
         <audio
-          src={allSongs[songIndex].songUrl}
+          src={songUrl}
           ref={audioRef}
           onTimeUpdate={() => {
             updateProgress();
@@ -198,8 +193,8 @@ const PlayerModal: FC<IPlayerModalProps> = ({
 
         <XMarkIcon
           onClick={() => {
-            setIsShowModal(false);
-            setCurrentlyPlaying(null);
+            dispatch(setIsShowModal(false));
+            dispatch(setIsPlaying(null));
           }}
           className="close-modal-icon"
         />

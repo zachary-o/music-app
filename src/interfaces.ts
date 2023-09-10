@@ -2,7 +2,7 @@ export interface IUser {
   id?: string;
   userName: string;
   password: string;
-  favorites?: string[];
+  favorites: string[];
 }
 
 export interface ISong {
@@ -14,43 +14,16 @@ export interface ISong {
   artist: string;
 }
 
-export interface ILoggedUser {
-  userName: string;
-  password: string;
-}
-
-export interface ILoginProps {
-  allUsers: IUser[] | null;
-  setAllUsers: React.Dispatch<React.SetStateAction<IUser[] | null>>;
-}
-
 export interface ILayoutProps {
-  loggedUser: ILoggedUser;
-  allUsers: IUser[] | null;
   allSongs: ISong[];
-  isShowModal: boolean;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export interface ISideBadProps {
-  loggedUser: ILoggedUser;
-  allUsers: IUser[] | null;
   allSongs: ISong[];
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IHomePageProps {
   allSongs: ISong[];
-  loggedUser: ILoggedUser;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  allUsers: IUser[] | null;
-  setAllUsers: React.Dispatch<React.SetStateAction<IUser[] | null>>;
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export interface ISongCardProps {
@@ -61,19 +34,9 @@ export interface ISongCardProps {
   coverUrl: string;
   artist: string;
   allSongs: ISong[];
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
-  allUsers: IUser[] | null;
-  setAllUsers: React.Dispatch<React.SetStateAction<IUser[] | null>>;
-  loggedUser: ILoggedUser;
 }
 
 export interface IPlayerModalProps {
-  isShowModal: boolean;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
   allSongs: ISong[];
 }
 
@@ -84,7 +47,4 @@ export interface ILikedSongProps {
   songUrl: string;
   coverUrl: string;
   artist: string;
-  currentlyPlaying: string | null;
-  setCurrentlyPlaying: React.Dispatch<React.SetStateAction<string | null>>;
-  setIsShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }

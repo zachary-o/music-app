@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import { Outlet } from "react-router";
 
@@ -7,36 +7,16 @@ import SideBar from "../SideBar/SideBar";
 import PlayerModal from "../PlayerModal/PlayerModal";
 
 import "./styles.css";
+import { useAppSelector } from "../../redux/app/hooks";
 
-const Layout: FC<ILayoutProps> = ({
-  loggedUser,
-  isShowModal,
-  setIsShowModal,
-  allUsers,
-  allSongs,
-  currentlyPlaying,
-  setCurrentlyPlaying,
-}) => {
+const Layout: FC<ILayoutProps> = ({ allSongs }) => {
+  const isShowModal = useAppSelector((state) => state.song.isShowModal);
+
   return (
     <div className="layout-container">
-      <SideBar
-        loggedUser={loggedUser}
-        allUsers={allUsers}
-        allSongs={allSongs}
-        currentlyPlaying={currentlyPlaying}
-        setCurrentlyPlaying={setCurrentlyPlaying}
-        setIsShowModal={setIsShowModal}
-      />
+      <SideBar allSongs={allSongs} />
       <Outlet />
-      {isShowModal && (
-        <PlayerModal
-          isShowModal={isShowModal}
-          setIsShowModal={setIsShowModal}
-          currentlyPlaying={currentlyPlaying}
-          setCurrentlyPlaying={setCurrentlyPlaying}
-          allSongs={allSongs}
-        />
-      )}
+      {isShowModal && <PlayerModal allSongs={allSongs} />}
     </div>
   );
 };
