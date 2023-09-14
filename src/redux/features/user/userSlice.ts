@@ -114,14 +114,28 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-export const handleFavSong = createAsyncThunk(
-  "user/handleFavSong",
-  async (songID: string, thunkAPI) => {
+export const addToFavorites = createAsyncThunk(
+  "user/addToFavorites",
+  async (songId: string, thunkAPI) => {
     const state = thunkAPI.getState() as { user: InitialState };
     const response = await axios.put(
       `https://64d8e1085f9bf5b879cea5c2.mockapi.io/users/${state.user.user.id}`,
       {
-        favorites: [...state.user.user.favorites, songID],
+        favorites: [...state.user.user.favorites, songId],
+      }
+    );
+    return response.data;
+  }
+);
+
+export const removeFromFavorites = createAsyncThunk(
+  "user/removeFromFavorites",
+  async (songId: string, thunkAPI) => {
+    const state = thunkAPI.getState() as { user: InitialState };
+    const response = await axios.put(
+      `https://64d8e1085f9bf5b879cea5c2.mockapi.io/users/${state.user.user.id}`,
+      {
+        favorites: state.user.user.favorites.filter((song) => song !== songId),
       }
     );
     return response.data;
@@ -139,9 +153,11 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Login User
     builder.addCase(loginUser.pending, (state) => {
       state.isLoading = true;
     });
+
     builder.addCase(
       loginUser.fulfilled,
       (state, action: PayloadAction<IUser>) => {
@@ -150,11 +166,13 @@ const userSlice = createSlice({
         state.error = "";
       }
     );
+
     builder.addCase(loginUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || "Login failed";
     });
 
+    // Register User
     builder.addCase(registerUser.pending, (state) => {
       state.isLoading = true;
     });
@@ -172,12 +190,14 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = action.error.message || "Signup failed";
     });
-    builder.addCase(handleFavSong.pending, (state) => {
+
+    // Add To Favorites
+    builder.addCase(addToFavorites.pending, (state) => {
       state.isLoading = true;
     });
 
     builder.addCase(
-      handleFavSong.fulfilled,
+      addToFavorites.fulfilled,
       (state, action: PayloadAction<IUser>) => {
         state.isLoading = false;
         state.user = action.payload;
@@ -185,10 +205,28 @@ const userSlice = createSlice({
       }
     );
 
-    builder.addCase(handleFavSong.rejected, (state, action) => {
+    builder.addCase(addToFavorites.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || "Something went wrong";
     });
+
+    // Remove From Favorites
+    builder.addCase(removeFromFavorites.pending, (state) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(
+      removeFromFavorites.fulfilled,
+      (state, action: PayloadAction<IUser>) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.error = "";
+      }
+    );
+    builder.addCase(removeFromFavorites.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Something went wrong";
+    })
   },
 });
 

@@ -7,7 +7,10 @@ import {
   setCurrentSong,
   setSongIndex,
 } from "../../redux/features/song/songSlice";
-import { handleFavSong } from "../../redux/features/user/userSlice";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/features/user/userSlice";
 
 import { ISongCardProps } from "../../interfaces";
 
@@ -24,6 +27,7 @@ const SongCard: FC<ISongCardProps> = ({
   artist,
 }) => {
   const { isPlaying, allSongs } = useAppSelector((state) => state.song);
+  const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
 
   // TOGGLE PLAY PAUSE ICONS ON CLICK
@@ -41,6 +45,13 @@ const SongCard: FC<ISongCardProps> = ({
         dispatch(setCurrentSong(allSongs[songIndex]));
       }
     }
+  };
+
+  const setLikeIconStyle = () => {
+    if (user.favorites.includes(id)) {
+      return "like-icon-added";
+    }
+    return "like-icon";
   };
 
   return (
@@ -62,8 +73,12 @@ const SongCard: FC<ISongCardProps> = ({
           <p>{albumName}</p>
         </div>
         <HeartIcon
-          className="like-icon"
-          onClick={() => dispatch(handleFavSong(id))}
+          className={setLikeIconStyle()}
+          onClick={() =>
+            user.favorites.includes(id)
+              ? dispatch(removeFromFavorites(id))
+              : dispatch(addToFavorites(id))
+          }
         />
       </div>
     </div>

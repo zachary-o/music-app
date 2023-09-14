@@ -6,6 +6,7 @@ import {
   setSongIndex,
   setCurrentSong,
 } from "../../redux/features/song/songSlice";
+import { removeFromFavorites } from "../../redux/features/user/userSlice";
 
 import { ILikedSongProps } from "../../interfaces";
 
@@ -20,9 +21,7 @@ const LikedSong: FC<ILikedSongProps> = ({
   coverUrl,
   artist,
 }) => {
-  const { isPlaying, allSongs } = useAppSelector(
-    (state) => state.song
-  );
+  const { isPlaying, allSongs } = useAppSelector((state) => state.song);
   const dispatch = useAppDispatch();
 
   // TOGGLE PLAY PAUSE ICONS ON CLICK
@@ -60,7 +59,10 @@ const LikedSong: FC<ILikedSongProps> = ({
           <p>{title}</p>
         </div>
       </div>
-      <HeartIcon className="favorite-icon" />
+      <HeartIcon
+        className="favorite-icon"
+        onClick={() => dispatch(removeFromFavorites(id))}
+      />
     </div>
   );
 };

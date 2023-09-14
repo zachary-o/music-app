@@ -87,3 +87,11 @@
 .like-icon:hover {
   fill: #231942;
 }
+
+.like-icon-added {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  color: #231942;
+  fill: #231942;
+}
