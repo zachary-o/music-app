@@ -5,6 +5,7 @@ import {
   setIsShowModal,
   setIsPlaying,
   setCurrentSong,
+  setSongIndex,
 } from "../../redux/features/song/songSlice";
 
 import { handleFavSong } from "../../redux/features/user/userSlice";
@@ -22,29 +23,24 @@ const SongCard: FC<ISongCardProps> = ({
   songUrl,
   coverUrl,
   artist,
-  allSongs,
 }) => {
-  const { isPlaying, isCurrentlyPlaying, isShowModal } = useAppSelector(
-    (state) => state.song
-  );
+  const { isPlaying, allSongs } = useAppSelector((state) => state.song);
   const dispatch = useAppDispatch();
 
   // TOGGLE PLAY PAUSE ICONS ON CLICK
   const togglePlaying = () => {
-    if (isCurrentlyPlaying) {
+    if (isPlaying === id) {
       dispatch(setIsPlaying(null));
     } else {
       dispatch(setIsPlaying(id));
       dispatch(setIsShowModal(true));
-      const currentSongPayload = {
-        id,
-        title,
-        albumName,
-        songUrl,
-        coverUrl,
-        artist,
-      };
-      dispatch(setCurrentSong(currentSongPayload));
+
+      const songIndex = allSongs.findIndex((song) => song.id === id);
+
+      if (songIndex !== -1) {
+        dispatch(setSongIndex(songIndex));
+        dispatch(setCurrentSong(allSongs[songIndex]));
+      }
     }
   };
 
@@ -53,7 +49,7 @@ const SongCard: FC<ISongCardProps> = ({
       <div className="cover-container">
         <img src={coverUrl} alt="album-cover" className="album-cover" />
         <div className="play-pause-icons" onClick={togglePlaying}>
-          {isPlaying === id ? (
+          {isPlaying == id ? (
             <PauseIcon className="pause-cover" />
           ) : (
             <PlayIcon className="play-cover" />

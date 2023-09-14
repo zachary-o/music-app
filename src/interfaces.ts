@@ -14,18 +14,6 @@ export interface ISong {
   artist: string;
 }
 
-export interface ILayoutProps {
-  allSongs: ISong[];
-}
-
-export interface ISideBadProps {
-  allSongs: ISong[];
-}
-
-export interface IHomePageProps {
-  allSongs: ISong[];
-}
-
 export interface ISongCardProps {
   id: string;
   title: string;
@@ -33,11 +21,6 @@ export interface ISongCardProps {
   songUrl: string;
   coverUrl: string;
   artist: string;
-  allSongs: ISong[];
-}
-
-export interface IPlayerModalProps {
-  allSongs: ISong[];
 }
 
 export interface ILikedSongProps {

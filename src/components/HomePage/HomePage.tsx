@@ -4,21 +4,18 @@ import { useAppSelector } from "../../redux/app/hooks";
 
 import { useNavigate } from "react-router-dom";
 
-import { IHomePageProps } from "../../interfaces";
 import SongCard from "../SongCard/SongCard";
 
 import "./styles.css";
 
-const HomePage: FC<IHomePageProps> = ({
-  allSongs
-}) => {
+const HomePage: FC = () => {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user.user);
+  const allSongs = useAppSelector((state) => state.song.allSongs);
 
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
-    navigate("/login");
   };
 
   return (
@@ -39,11 +36,7 @@ const HomePage: FC<IHomePageProps> = ({
         <h1>Listen music without borders.</h1>
         <div className="songs-grid">
           {allSongs?.map((song) => (
-            <SongCard
-              {...song}
-              key={song.id}
-              allSongs={allSongs}
-            />
+            <SongCard {...song} key={song.id} />
           ))}
         </div>
       </div>

@@ -14,8 +14,6 @@ const LikedSong: FC<ILikedSongProps> = ({
   coverUrl,
   artist,
 }) => {
-
-  const isCurrentlyPlaying = useAppSelector(state => state.song.isCurrentlyPlaying)
   // TOGGLE PLAY PAUSE ICONS ON CLICK
   // const isCurrentlyPlaying: boolean = currentlyPlaying === id;
   // const togglePlaying = () => {
@@ -32,12 +30,12 @@ const LikedSong: FC<ILikedSongProps> = ({
       <div className="cover-song-info">
         <div className="cover-container-favs">
           <img src={coverUrl} alt="" className="favorites-cover" />
-          <div className="play-pause-icons-favs" >
-            {isCurrentlyPlaying ? (
+          <div className="play-pause-icons-favs">
+            {/* {isCurrentlyPlaying ? (
               <PauseIcon className="pause-cover-favs" />
             ) : (
               <PlayIcon className="play-cover-favs" />
-            )}
+            )} */}
           </div>
         </div>
         <div className="artist-title">

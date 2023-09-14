@@ -1,10 +1,10 @@
-import { useState, FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "./redux/app/hooks";
-import { setNewUserData } from "./redux/features/user/userSlice";
+import { useAppDispatch } from "./redux/app/hooks";
+import { setAllSongs } from "./redux/features/song/songSlice";
 
-import { ISong } from "./interfaces";
+import { setNewUserData } from "./redux/features/user/userSlice";
 
 import Layout from "./components/LayoutPage/Layout";
 import HomePage from "./components/HomePage/HomePage";
@@ -13,9 +13,8 @@ import Login from "./components/Login/Login";
 import data from "./data.json";
 
 const App: FC = () => {
-  const [allSongs, setAllSongs] = useState<ISong[]>(data);
-
   const dispatch = useAppDispatch();
+  dispatch(setAllSongs(data));
 
   useEffect(() => {
     const savedUser =
@@ -30,8 +29,8 @@ const App: FC = () => {
   return (
     <div className="wrapper">
       <Routes>
-        <Route path="/" element={<Layout allSongs={allSongs} />}>
-          <Route index element={<HomePage allSongs={allSongs} />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

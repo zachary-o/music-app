@@ -1,12 +1,12 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import {
+  setCurrentSong,
   setIsPlaying,
   setIsShowModal,
+  setSongIndex,
 } from "../../redux/features/song/songSlice";
-
-import { IPlayerModalProps } from "../../interfaces";
 
 import {
   XMarkIcon,
@@ -19,69 +19,87 @@ import {
 
 import "./styles.css";
 
-const PlayerModal: FC<IPlayerModalProps> = ({ allSongs }) => {
+const PlayerModal: FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressContainerRef = useRef<HTMLDivElement | null>(null);
   const volumeContainerRef = useRef<HTMLDivElement | null>(null);
-  const [songIndex, setSongIndex] = useState(0);
+  // const [songIndex, setSongIndex] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
   const [volumePercent, setVolumePercent] = useState(100);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [playingSong, setPlayingSong] = useState(false);
 
-  const { isShowModal, isPlaying } = useAppSelector((state) => state.song);
+  const { allSongs, isShowModal, isPlaying, songIndex } = useAppSelector(
+    (state) => state.song
+  );
   const { id, title, albumName, songUrl, coverUrl, artist } = useAppSelector(
     (state) => state.song.currentSong
   );
   const dispatch = useAppDispatch();
 
-  const playSong = () => {
-    audioRef.current?.play();
-    setPlayingSong(false);
-  };
+  useEffect(() => {
+    console.log(songIndex);
+  }, [songIndex]);
 
-  const pauseSong = () => {
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current?.play();
+    }
+    if (!isPlaying) {
+      audioRef.current?.pause();
+    }
+  }, [isPlaying, id]);
+
+  function playSong() {
+    audioRef.current?.play();
+    if (isPlaying == id) {
+      dispatch(setIsPlaying(null));
+    } else {
+      dispatch(setIsPlaying(id));
+    }
+  }
+  
+  function pauseSong() {
     audioRef.current?.pause();
-    setPlayingSong(true);
-  };
+    if (isPlaying == id) {
+      dispatch(setIsPlaying(null));
+    } else {
+      dispatch(setIsPlaying(id));
+    }
+  }
 
   const prevSong = () => {
+    let newIndex;
     if (songIndex === 0) {
-      setSongIndex(allSongs.length - 1);
-      setTimeout(() => {
-        playSong();
-      }, 100);
+      newIndex = allSongs.length - 1;
+    } else {
+      newIndex = songIndex - 1;
     }
-    if (songIndex < allSongs.length && songIndex !== 0) {
-      setSongIndex((prev) => prev - 1);
-      setTimeout(() => {
-        playSong();
-      }, 100);
-    }
+
+    dispatch(setSongIndex(newIndex));
+    dispatch(setCurrentSong(allSongs[newIndex]));
+    dispatch(setIsPlaying(newIndex + 1));
+    audioRef.current?.play();
+
+    console.log(isPlaying === id, "id: ", id, "isPlaying: ", isPlaying);
   };
 
   const nextSong = () => {
+    let newIndex;
     if (songIndex < allSongs.length - 1) {
-      setSongIndex((prev) => prev + 1);
-      setTimeout(() => {
-        playSong();
-      }, 100);
+      newIndex = songIndex + 1;
+    } else {
+      newIndex = 0;
     }
 
-    if (songIndex === allSongs.length - 1) {
-      setSongIndex(0);
-    }
-    console.log(songIndex);
+    dispatch(setSongIndex(newIndex));
+    dispatch(setCurrentSong(allSongs[newIndex]));
+    dispatch(setIsPlaying(newIndex + 1));
+    audioRef.current?.play();
+
+    console.log(isPlaying === id, "id: ", id, "isPlaying: ", isPlaying);
   };
-
-  if (audioRef.current) {
-    if (audioRef.current.currentTime === audioRef.current.duration) {
-      nextSong();
-      audioRef.current.currentTime = 0;
-    }
-  }
 
   const updateProgress = () => {
     if (audioRef.current) {
@@ -148,10 +166,10 @@ const PlayerModal: FC<IPlayerModalProps> = ({ allSongs }) => {
         <div className="navigation-progress-container">
           <div className="navigation">
             <BackwardIcon className="navigation-icon" onClick={prevSong} />
-            {isPlaying === id ? (
-              <PlayIcon className="navigation-icon big" onClick={playSong} />
-            ) : (
+            {isPlaying == id ? (
               <PauseIcon className="navigation-icon big" onClick={pauseSong} />
+            ) : (
+              <PlayIcon className="navigation-icon big" onClick={playSong} />
             )}
             <ForwardIcon className="navigation-icon" onClick={nextSong} />
           </div>

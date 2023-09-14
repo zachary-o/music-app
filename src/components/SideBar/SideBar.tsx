@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/app/hooks";
 
 import { useNavigate } from "react-router-dom";
-import { ISideBadProps, ISong, IUser } from "../../interfaces";
 
 import LikedSong from "../LikedSong/LikedSong";
 
@@ -13,12 +12,12 @@ import logo from "../../assets/logo.png";
 
 import "./styles.css";
 
-const SideBar: FC<ISideBadProps> = ({
-  allSongs
-}) => {
+const SideBar: FC = () => {
   const navigate = useNavigate();
 
   const favoritesUser = useAppSelector((state) => state.user.user.favorites);
+  const allSongs = useAppSelector((state) => state.song.allSongs);
+
   const favoriteSongs = allSongs.filter((song) =>
     favoritesUser.some((songs) => songs === song.id)
   );
@@ -44,10 +43,7 @@ const SideBar: FC<ISideBadProps> = ({
 
             <div className="favorites-list">
               {favoriteSongs?.map((song) => (
-                <LikedSong
-                  key={song.id}
-                  {...song}
-                />
+                <LikedSong key={song.id} {...song} />
               ))}
             </div>
           </div>
