@@ -24,7 +24,6 @@ const PlayerModal: FC = () => {
   const progressRef = useRef<HTMLDivElement | null>(null);
   const progressContainerRef = useRef<HTMLDivElement | null>(null);
   const volumeContainerRef = useRef<HTMLDivElement | null>(null);
-  // const [songIndex, setSongIndex] = useState(0);
   const [progressPercent, setProgressPercent] = useState(0);
   const [volumePercent, setVolumePercent] = useState(100);
   const [currentTime, setCurrentTime] = useState(0);
@@ -39,10 +38,6 @@ const PlayerModal: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(songIndex);
-  }, [songIndex]);
-
-  useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
     }
@@ -53,16 +48,16 @@ const PlayerModal: FC = () => {
 
   function playSong() {
     audioRef.current?.play();
-    if (isPlaying == id) {
+    if (isPlaying === id) {
       dispatch(setIsPlaying(null));
     } else {
       dispatch(setIsPlaying(id));
     }
   }
-  
+
   function pauseSong() {
     audioRef.current?.pause();
-    if (isPlaying == id) {
+    if (isPlaying === id) {
       dispatch(setIsPlaying(null));
     } else {
       dispatch(setIsPlaying(id));
@@ -81,8 +76,6 @@ const PlayerModal: FC = () => {
     dispatch(setCurrentSong(allSongs[newIndex]));
     dispatch(setIsPlaying(newIndex + 1));
     audioRef.current?.play();
-
-    console.log(isPlaying === id, "id: ", id, "isPlaying: ", isPlaying);
   };
 
   const nextSong = () => {
@@ -99,6 +92,19 @@ const PlayerModal: FC = () => {
     audioRef.current?.play();
 
     console.log(isPlaying === id, "id: ", id, "isPlaying: ", isPlaying);
+  };
+
+  const handleSongEnded = () => {
+    let newIndex;
+    if (songIndex < allSongs.length - 1) {
+      newIndex = songIndex + 1;
+    } else {
+      newIndex = 0;
+    }
+
+    dispatch(setSongIndex(newIndex));
+    dispatch(setCurrentSong(allSongs[newIndex]));
+    dispatch(setIsPlaying(newIndex + 1));
   };
 
   const updateProgress = () => {
@@ -151,7 +157,9 @@ const PlayerModal: FC = () => {
     const seconds = Math.floor(durationSeconds % 60);
     const formattedSeconds = seconds.toString().padStart(2, "0");
 
-    return `${minutes}:${formattedSeconds}`;
+    if (minutes && formattedSeconds) {
+      return `${minutes}:${formattedSeconds}`;
+    } else return "0:00";
   };
 
   return (
@@ -198,6 +206,7 @@ const PlayerModal: FC = () => {
             handleTimeUpdate();
           }}
           onVolumeChange={updateVolume}
+          onEnded={handleSongEnded}
         />
         <div className="volume-control"></div>
         <SpeakerWaveIcon className="volume-icon" />

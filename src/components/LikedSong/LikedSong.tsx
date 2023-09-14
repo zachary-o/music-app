@@ -1,5 +1,11 @@
 import { FC } from "react";
-import { useAppSelector } from "../../redux/app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
+import {
+  setIsPlaying,
+  setIsShowModal,
+  setSongIndex,
+  setCurrentSong,
+} from "../../redux/features/song/songSlice";
 
 import { ILikedSongProps } from "../../interfaces";
 
@@ -14,28 +20,39 @@ const LikedSong: FC<ILikedSongProps> = ({
   coverUrl,
   artist,
 }) => {
+  const { isPlaying, allSongs } = useAppSelector(
+    (state) => state.song
+  );
+  const dispatch = useAppDispatch();
+
   // TOGGLE PLAY PAUSE ICONS ON CLICK
-  // const isCurrentlyPlaying: boolean = currentlyPlaying === id;
-  // const togglePlaying = () => {
-  //   if (isCurrentlyPlaying) {
-  //     setCurrentlyPlaying(null);
-  //   } else {
-  //     setCurrentlyPlaying(id);
-  //     setIsShowModal(true);
-  //   }
-  // };
+  const togglePlaying = () => {
+    if (isPlaying === id) {
+      dispatch(setIsPlaying(null));
+    } else {
+      dispatch(setIsPlaying(id));
+      dispatch(setIsShowModal(true));
+
+      const songIndex = allSongs.findIndex((song) => song.id === id);
+
+      if (songIndex !== -1) {
+        dispatch(setSongIndex(songIndex));
+        dispatch(setCurrentSong(allSongs[songIndex]));
+      }
+    }
+  };
 
   return (
     <div className="favorite-song-container">
       <div className="cover-song-info">
         <div className="cover-container-favs">
           <img src={coverUrl} alt="" className="favorites-cover" />
-          <div className="play-pause-icons-favs">
-            {/* {isCurrentlyPlaying ? (
+          <div className="play-pause-icons-favs" onClick={togglePlaying}>
+            {isPlaying === id ? (
               <PauseIcon className="pause-cover-favs" />
             ) : (
               <PlayIcon className="play-cover-favs" />
-            )} */}
+            )}
           </div>
         </div>
         <div className="artist-title">

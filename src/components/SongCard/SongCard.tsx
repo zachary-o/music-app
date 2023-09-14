@@ -7,10 +7,9 @@ import {
   setCurrentSong,
   setSongIndex,
 } from "../../redux/features/song/songSlice";
-
 import { handleFavSong } from "../../redux/features/user/userSlice";
 
-import { ISong, ISongCardProps } from "../../interfaces";
+import { ISongCardProps } from "../../interfaces";
 
 import { PlayIcon, PauseIcon, HeartIcon } from "@heroicons/react/24/outline";
 
@@ -49,7 +48,7 @@ const SongCard: FC<ISongCardProps> = ({
       <div className="cover-container">
         <img src={coverUrl} alt="album-cover" className="album-cover" />
         <div className="play-pause-icons" onClick={togglePlaying}>
-          {isPlaying == id ? (
+          {isPlaying === id ? (
             <PauseIcon className="pause-cover" />
           ) : (
             <PlayIcon className="play-cover" />

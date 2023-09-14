@@ -5,7 +5,7 @@
     "songUrl": "./songs/Артист.mp3",
     "coverUrl": "./covers/Троянди Для Тебе.jpeg",
     "artist": "Степан Гіга",
-    "id": 1
+    "id": "1"
   },
   {
     "title": "Біла Вуаль",
@@ -13,7 +13,7 @@
     "songUrl": "./songs/Біла Вуаль.mp3",
     "coverUrl": "./covers/Вулиця Наталі.jpeg",
     "artist": "Степан Гіга",
-    "id": 2
+    "id": "2"
   },
   {
     "title": "Весілля",
@@ -21,7 +21,7 @@
     "songUrl": "./songs/Весілля.mp3",
     "coverUrl": "./covers/Троянди Для Тебе.jpeg",
     "artist": "Степан Гіга",
-    "id": 3
+    "id": "3"
   },
   {
     "title": "Ворожи – Не Ворожи",
@@ -29,7 +29,7 @@
     "songUrl": "./songs/Ворожи – Не Ворожи.mp3",
     "coverUrl": "./covers/Троянди Для Тебе.jpeg",
     "artist": "Степан Гіга",
-    "id": 4
+    "id": "4"
   },
   {
     "title": "Достигає Вишня",
@@ -37,7 +37,7 @@
     "songUrl": "./songs/Достигає Вишня.mp3",
     "coverUrl": "./covers/Вулиця Наталі.jpeg",
     "artist": "Степан Гіга",
-    "id": 5
+    "id": "5"
   },
   {
     "title": "Дружині",
@@ -45,7 +45,7 @@
     "songUrl": "./songs/Дружині.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 6
+    "id": "6"
   },
   {
     "title": "Друзі Мої",
@@ -53,7 +53,7 @@
     "songUrl": "./songs/Друзі Мої.mp3",
     "coverUrl": "./covers/Друзі Мої.jpeg",
     "artist": "Степан Гіга",
-    "id": 7
+    "id": "7"
   },
   {
     "title": "Золото Карпат",
@@ -61,7 +61,7 @@
     "songUrl": "./songs/Золото Карпат.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 8
+    "id": "8"
   },
   {
     "title": "Любов Стороною Іде",
@@ -69,7 +69,7 @@
     "songUrl": "./songs/Любов Стороною Іде.mp3",
     "coverUrl": "./covers/Вулиця Наталі.jpeg",
     "artist": "Степан Гіга",
-    "id": 9
+    "id": "9"
   },
   {
     "title": "Любов То Сон",
@@ -77,7 +77,7 @@
     "songUrl": "./songs/Любов То Сон.mp3",
     "coverUrl": "./covers/Друзі Мої.jpeg",
     "artist": "Степан Гіга",
-    "id": 10
+    "id": "10"
   },
   {
     "title": "Океан Твоїх Очей",
@@ -85,7 +85,7 @@
     "songUrl": "./songs/Океан Твоїх Очей.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 11
+    "id": "11"
   },
   {
     "title": "Остання Ніч",
@@ -93,7 +93,7 @@
     "songUrl": "./songs/Океан Твоїх Очей.mp3",
     "coverUrl": "./covers/Вулиця Наталі.jpeg",
     "artist": "Степан Гіга",
-    "id": 12
+    "id": "12"
   },
   {
     "title": "Пробач",
@@ -101,7 +101,7 @@
     "songUrl": "./songs/Пробач.mp3",
     "coverUrl": "./covers/Вулиця Наталі.jpeg",
     "artist": "Степан Гіга",
-    "id": 13
+    "id": "13"
   },
   {
     "title": "Ти Не Моя",
@@ -109,7 +109,7 @@
     "songUrl": "./songs/Ти Не Моя.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 14
+    "id": "14"
   },
   {
     "title": "Третій Тост",
@@ -117,7 +117,7 @@
     "songUrl": "./songs/Третій Тост.mp3",
     "coverUrl": "./covers/Троянди Для Тебе.jpeg",
     "artist": "Степан Гіга",
-    "id": 15
+    "id": "15"
   },
   {
     "title": "У Райськім Саду",
@@ -125,7 +125,7 @@
     "songUrl": "./songs/У Райськім Саду.mp3",
     "coverUrl": "./covers/Друзі Мої.jpeg",
     "artist": "Степан Гіга",
-    "id": 16
+    "id": "16"
   },
   {
     "title": "Цей Сон",
@@ -133,7 +133,7 @@
     "songUrl": "./songs/Цей Сон.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 17
+    "id": "17"
   },
   {
     "title": "Я Поклав Своє Кохання На Вівтар",
@@ -141,6 +141,6 @@
     "songUrl": "./songs/Я Поклав Своє Кохання На Вівтар.mp3",
     "coverUrl": "./covers/Дорога До Храму.jpeg",
     "artist": "Степан Гіга",
-    "id": 18
+    "id": "18"
   }
 ]

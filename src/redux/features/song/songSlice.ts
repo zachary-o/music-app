@@ -39,9 +39,6 @@ const songSlice = createSlice({
     setIsPlaying: (state, action) => {
       state.isPlaying = action.payload;
     },
-    // setIsCurrentlyPlaying: (state, action) => {
-    //   state.isCurrentlyPlaying = state.isPlaying == action.payload;
-    // },
     setSongIndex: (state, action) => {
       state.songIndex = action.payload;
     },
