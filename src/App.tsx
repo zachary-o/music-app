@@ -8,6 +8,7 @@ import { setNewUserData } from "./redux/features/user/userSlice";
 
 import Layout from "./components/LayoutPage/Layout";
 import HomePage from "./components/HomePage/HomePage";
+import SearchPage from "./components/SearchPage/SearchPage";
 import Login from "./components/Login/Login";
 
 import data from "./data.json";
@@ -31,6 +32,7 @@ const App: FC = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -16,6 +16,7 @@ const HomePage: FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
+    navigate("/login");
   };
 
   return (

@@ -26,11 +26,11 @@ const SideBar: FC = () => {
     <aside className="sidebar-container">
       <img src={logo} alt="" className="sidebar-logo" />
       <section className="links-container">
-        <div className="home-link">
+        <div className="home-link" onClick={() => navigate("/")}>
           <HomeIcon className="link-icon" />
           <h4>Home</h4>
         </div>
-        <div className="search-link">
+        <div className="search-link" onClick={() => navigate("/search")}>
           <MagnifyingGlassIcon className="link-icon" />
           <h4>Search</h4>
         </div>
