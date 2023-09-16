@@ -18,6 +18,16 @@
   justify-content: space-between;
   align-items: center;
   width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.modal-cover-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 25%;
+  padding-right: 10%;
 }
 
 .modal-cover img {
@@ -30,7 +40,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 50%;
 }
 
 .navigation {
@@ -53,13 +63,16 @@
 }
 
 .close-modal-icon {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: -25px;
 }
 
 .progress-control {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -84,6 +97,13 @@
   transition: width 0.1s linear;
 }
 
+.volume-control-container {
+  padding-left: 10%;
+  display: flex;
+  align-items: center;
+  width: 25%;
+}
+
 .volume-control {
   display: flex;
   flex-direction: row;
@@ -94,7 +114,7 @@
 .volume-container {
   background-color: #da1818;
   border-radius: 5px;
-  width: 20%;
+  flex-grow: 1;
   height: 4px;
   cursor: pointer;
 }

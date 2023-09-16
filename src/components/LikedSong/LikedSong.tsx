@@ -47,7 +47,7 @@ const LikedSong: FC<ILikedSongProps> = ({
         <div className="cover-container-favs">
           <img src={coverUrl} alt="" className="favorites-cover" />
           <div className="play-pause-icons-favs" onClick={togglePlaying}>
-            {isPlaying === id ? (
+            {isPlaying == id ? (
               <PauseIcon className="pause-cover-favs" />
             ) : (
               <PlayIcon className="play-cover-favs" />

@@ -59,7 +59,7 @@ const SongCard: FC<ISongCardProps> = ({
       <div className="cover-container">
         <img src={coverUrl} alt="album-cover" className="album-cover" />
         <div className="play-pause-icons" onClick={togglePlaying}>
-          {isPlaying === id ? (
+          {isPlaying == id ? (
             <PauseIcon className="pause-cover" />
           ) : (
             <PlayIcon className="play-cover" />

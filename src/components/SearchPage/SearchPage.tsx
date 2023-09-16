@@ -61,7 +61,7 @@ const SearchPage = () => {
             onChange={(event) => setSearchInputs(event.target.value)}
           />
         </div>
-        <div className="songs-grid">
+        <div className="search-results">
           {searchResults.map((song) => (
             <SongCard {...song} key={song.id} />
           ))}

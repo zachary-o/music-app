@@ -19,7 +19,7 @@
 }
 
 .input-container input:focus {
-    outline: none;
+  outline: none;
 }
 
 .input-container input::placeholder {
@@ -38,4 +38,17 @@
   background-color: #1c1c1e;
   border-radius: 20px;
   gap: 20px;
+}
+
+.search-results {
+  display: grid;
+  min-height: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 40px;
+  grid-template-areas: ". . . .";
+  flex-grow: 1;
+
+  overflow: auto;
 }

@@ -168,9 +168,8 @@ const PlayerModal: FC = () => {
     >
       <div className="music-container">
         <div className="modal-cover">
-          <img src={coverUrl} alt="" />
+          <img src={coverUrl} alt="album cover-image" />
         </div>
-        <p>{title}</p>
         <div className="navigation-progress-container">
           <div className="navigation">
             <BackwardIcon className="navigation-icon" onClick={prevSong} />
@@ -196,6 +195,7 @@ const PlayerModal: FC = () => {
             </div>
             <p>{formatDuration(duration)}</p>
           </div>
+          <p>{title}</p>
         </div>
 
         <audio
@@ -208,14 +208,19 @@ const PlayerModal: FC = () => {
           onVolumeChange={updateVolume}
           onEnded={handleSongEnded}
         />
-        <div className="volume-control"></div>
-        <SpeakerWaveIcon className="volume-icon" />
-        <div
-          className="volume-container"
-          ref={volumeContainerRef}
-          onClick={setVolume}
-        >
-          <div className="volume" style={{ width: `${volumePercent}%` }}></div>
+        <div className="volume-control-container">
+          <div className="volume-control"></div>
+          <SpeakerWaveIcon className="volume-icon" />
+          <div
+            className="volume-container"
+            ref={volumeContainerRef}
+            onClick={setVolume}
+          >
+            <div
+              className="volume"
+              style={{ width: `${volumePercent}%` }}
+            ></div>
+          </div>
         </div>
 
         <XMarkIcon

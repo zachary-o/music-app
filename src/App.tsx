@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 
 import { useAppDispatch } from "./redux/app/hooks";
 import { setAllSongs } from "./redux/features/song/songSlice";
-
 import { setNewUserData } from "./redux/features/user/userSlice";
 
 import Layout from "./components/LayoutPage/Layout";
@@ -33,6 +32,7 @@ const App: FC = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/search" element={<SearchPage />} />
+          //Song Page
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
