@@ -177,6 +177,11 @@ const PlayerModal: FC = () => {
       audioRef.current.volume = newVolume / 100;
       setIsMuted(false);
       setPreviousVolume(newVolume);
+      if (newVolume === 0) {
+        setIsMuted(true);
+      } else {
+        setIsMuted(false);
+      }
     }
   };
 
