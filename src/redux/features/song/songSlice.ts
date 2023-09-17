@@ -4,7 +4,6 @@ import { ISong } from "../../../interfaces";
 type InitialState = {
   allSongs: ISong[];
   isShowModal: boolean;
-  // isCurrentlyPlaying: boolean;
   isPlaying: string | null;
   currentSong: ISong;
   songIndex: number;
@@ -13,7 +12,6 @@ type InitialState = {
 const initialState: InitialState = {
   allSongs: [],
   isShowModal: false,
-  // isCurrentlyPlaying: false,
   isPlaying: null,
   currentSong: {
     id: "",

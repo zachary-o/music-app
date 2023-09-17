@@ -15,6 +15,7 @@ import {
   ForwardIcon,
   BackwardIcon,
   SpeakerWaveIcon,
+  SpeakerXMarkIcon,
 } from "@heroicons/react/24/solid";
 
 import "./styles.css";
@@ -28,6 +29,8 @@ const PlayerModal: FC = () => {
   const [volumePercent, setVolumePercent] = useState(100);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [previousVolume, setPreviousVolume] = useState(100);
 
   const { allSongs, isShowModal, isPlaying, songIndex } = useAppSelector(
     (state) => state.song
@@ -37,6 +40,7 @@ const PlayerModal: FC = () => {
   );
   const dispatch = useAppDispatch();
 
+  // AUTOMATICALLY PLAYS NEXT / PREV SONG
   useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
@@ -46,6 +50,7 @@ const PlayerModal: FC = () => {
     }
   }, [isPlaying, id]);
 
+  // PLAY ON CLICK
   function playSong() {
     audioRef.current?.play();
     if (isPlaying === id) {
@@ -55,15 +60,15 @@ const PlayerModal: FC = () => {
     }
   }
 
+  // PAUSE ON CLICK
   function pauseSong() {
-    audioRef.current?.pause();
-    if (isPlaying === id) {
-      dispatch(setIsPlaying(null));
-    } else {
-      dispatch(setIsPlaying(id));
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
+    dispatch(setIsPlaying(null));
   }
 
+  // PREV SONG ON CLICK
   const prevSong = () => {
     let newIndex;
     if (songIndex === 0) {
@@ -72,28 +77,28 @@ const PlayerModal: FC = () => {
       newIndex = songIndex - 1;
     }
 
+    audioRef.current?.play();
     dispatch(setSongIndex(newIndex));
     dispatch(setCurrentSong(allSongs[newIndex]));
     dispatch(setIsPlaying(newIndex + 1));
-    audioRef.current?.play();
   };
 
+  // NEXT SONG ON CLICK
   const nextSong = () => {
-    let newIndex;
+    let newIndex: number;
     if (songIndex < allSongs.length - 1) {
       newIndex = songIndex + 1;
     } else {
       newIndex = 0;
     }
 
+    audioRef.current?.play();
     dispatch(setSongIndex(newIndex));
     dispatch(setCurrentSong(allSongs[newIndex]));
     dispatch(setIsPlaying(newIndex + 1));
-    audioRef.current?.play();
-
-    console.log(isPlaying === id, "id: ", id, "isPlaying: ", isPlaying);
   };
 
+  // SETS NEXT SONG AFTER PREVIOUS ONE ENDED
   const handleSongEnded = () => {
     let newIndex;
     if (songIndex < allSongs.length - 1) {
@@ -107,6 +112,7 @@ const PlayerModal: FC = () => {
     dispatch(setIsPlaying(newIndex + 1));
   };
 
+  // UPDATES SONG PROGRESS
   const updateProgress = () => {
     if (audioRef.current) {
       const duration = audioRef.current.duration;
@@ -117,6 +123,7 @@ const PlayerModal: FC = () => {
     }
   };
 
+  // SETS SONG PROGRESS ON CLICK
   const setProgress = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (progressContainerRef.current && audioRef.current) {
       let width = progressContainerRef.current.clientWidth;
@@ -128,11 +135,37 @@ const PlayerModal: FC = () => {
     }
   };
 
+  // REFLECTS THE CURRENT PLAYBACK TIME AND THE TOTAL DURATION OF THE AUDIO
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  // FORMATS A DURATION IN MINUTES AND SECONDS
+  const formatDuration = (durationSeconds: number) => {
+    const minutes = Math.floor(durationSeconds / 60);
+    const seconds = Math.floor(durationSeconds % 60);
+    const formattedSeconds = seconds.toString().padStart(2, "0");
+
+    return `${minutes}:${formattedSeconds}`;
+  };
+
+  // ENSURES THAT THE TOTAL DURATION OF THE AUDIO IS CORRECTLY SET
+  const handleAudioLoaded = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  // UPDATES VOLUME
   const updateVolume = (event: React.SyntheticEvent<HTMLAudioElement>) => {
     const volume = event.currentTarget.volume * 100;
     setVolumePercent(volume);
   };
 
+  // SETS VOLUME ON CLICK
   const setVolume = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (volumeContainerRef.current && audioRef.current) {
       const width = volumeContainerRef.current.clientWidth;
@@ -142,24 +175,24 @@ const PlayerModal: FC = () => {
       setVolumePercent(newVolume);
 
       audioRef.current.volume = newVolume / 100;
+      setIsMuted(false);
+      setPreviousVolume(newVolume);
     }
   };
 
-  const handleTimeUpdate = () => {
+  // TOGGLE MUTE / UNMUTE ON CLICK
+  const toggleMute = () => {
     if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-      setDuration(audioRef.current.duration);
+      if (audioRef.current.volume === 0) {
+        audioRef.current.volume = previousVolume / 100;
+        setIsMuted(false);
+      } else {
+        setPreviousVolume(audioRef.current.volume * 100);
+        audioRef.current.volume = 0;
+        setIsMuted(true);
+      }
     }
-  };
-
-  const formatDuration = (durationSeconds: number) => {
-    const minutes = Math.floor(durationSeconds / 60);
-    const seconds = Math.floor(durationSeconds % 60);
-    const formattedSeconds = seconds.toString().padStart(2, "0");
-
-    if (minutes && formattedSeconds) {
-      return `${minutes}:${formattedSeconds}`;
-    } else return "0:00";
+    console.log(previousVolume);
   };
 
   return (
@@ -167,19 +200,22 @@ const PlayerModal: FC = () => {
       className={isShowModal ? "player-container-active" : "player-container"}
     >
       <div className="music-container">
-        <div className="modal-cover">
+        <div className="modal-cover-container">
           <img src={coverUrl} alt="album cover-image" />
         </div>
+        <div className="navigation-buttons">
+          <BackwardIcon className="navigation-icon" onClick={prevSong} />
+          {isPlaying == id ? (
+            <PauseIcon className="navigation-icon big" onClick={pauseSong} />
+          ) : (
+            <PlayIcon className="navigation-icon big" onClick={playSong} />
+          )}
+          <ForwardIcon className="navigation-icon" onClick={nextSong} />
+        </div>
         <div className="navigation-progress-container">
-          <div className="navigation">
-            <BackwardIcon className="navigation-icon" onClick={prevSong} />
-            {isPlaying == id ? (
-              <PauseIcon className="navigation-icon big" onClick={pauseSong} />
-            ) : (
-              <PlayIcon className="navigation-icon big" onClick={playSong} />
-            )}
-            <ForwardIcon className="navigation-icon" onClick={nextSong} />
-          </div>
+          <p className="navigation-progress-title">
+            {artist} - {title}
+          </p>
           <div className="progress-control">
             <p>{formatDuration(currentTime)}</p>
             <div
@@ -195,7 +231,6 @@ const PlayerModal: FC = () => {
             </div>
             <p>{formatDuration(duration)}</p>
           </div>
-          <p>{title}</p>
         </div>
 
         <audio
@@ -207,10 +242,15 @@ const PlayerModal: FC = () => {
           }}
           onVolumeChange={updateVolume}
           onEnded={handleSongEnded}
+          onLoadedMetadata={handleAudioLoaded}
         />
         <div className="volume-control-container">
           <div className="volume-control"></div>
-          <SpeakerWaveIcon className="volume-icon" />
+          {isMuted ? (
+            <SpeakerXMarkIcon className="volume-icon" onClick={toggleMute} />
+          ) : (
+            <SpeakerWaveIcon className="volume-icon" onClick={toggleMute} />
+          )}
           <div
             className="volume-container"
             ref={volumeContainerRef}

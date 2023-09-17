@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppSelector } from "../../redux/app/hooks";
+import { useAppSelector, useAppDispatch } from "../../redux/app/hooks";
+import {
+  setIsPlaying,
+  setIsShowModal,
+  setCurrentSong,
+  setSongIndex,
+} from "../../redux/features/song/songSlice";
 
 import SongCard from "../SongCard/SongCard";
 
@@ -14,12 +20,18 @@ const SearchPage = () => {
   const [searchResults, setSearchResults] = useState<ISong[]>([]);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const user = useAppSelector((state) => state.user.user);
   const allSongs = useAppSelector((state) => state.song.allSongs);
 
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
+    dispatch(setIsPlaying(null));
+    dispatch(setIsShowModal(false));
+    dispatch(setSongIndex(0));
+    dispatch(setCurrentSong(allSongs[0]));
     navigate("/login");
   };
 
@@ -47,8 +59,28 @@ const SearchPage = () => {
         </div>
       ) : (
         <div className="auth-buttons-container">
-          <button onClick={() => navigate("/login")}>Sign In</button>
-          <button onClick={() => navigate("/login")}>Sign Up</button>
+          <button
+            onClick={() => {
+              navigate("/login");
+              dispatch(setIsPlaying(null));
+              dispatch(setIsShowModal(false));
+              dispatch(setSongIndex(0));
+              dispatch(setCurrentSong(allSongs[0]));
+            }}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => {
+              navigate("/login");
+              dispatch(setIsPlaying(null));
+              dispatch(setIsShowModal(false));
+              dispatch(setSongIndex(0));
+              dispatch(setCurrentSong(allSongs[0]));
+            }}
+          >
+            Sign Up
+          </button>
         </div>
       )}
       <section className="input-results-container">
