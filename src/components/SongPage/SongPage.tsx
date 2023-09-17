@@ -16,6 +16,7 @@ import { PlayIcon, PauseIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 import "./styles.css";
 import { useEffect } from "react";
+import { ISong } from "../../interfaces";
 
 const SongPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ const SongPage = () => {
   const { songId } = useParams();
   const { allSongs, isPlaying } = useAppSelector((state) => state.song);
   const user = useAppSelector((state) => state.user.user);
-  const neededSong = allSongs.find((song) => song.id === songId);
+  const neededSong: ISong | undefined = allSongs.find(
+    (song) => song.id === songId
+  );
 
   useEffect(() => {
     console.log(neededSong);
@@ -57,12 +60,12 @@ const SongPage = () => {
     }
   };
 
-  //   const setLikeIconStyle = () => {
-  //     if (user.favorites.includes(neededSong?.id)) {
-  //       return "like-icon-added";
-  //     }
-  //     return "like-icon";
-  //   };
+  const setLikeIconStyle = () => {
+    if (neededSong && user.favorites.includes(neededSong.id)) {
+      return "song-details-icons__like-icon-added";
+    }
+    return "song-details-icons__like-icon";
+  };
 
   return (
     <main className="song-page-container">
@@ -116,16 +119,14 @@ const SongPage = () => {
               )}
             </div>
 
-            <div className="song-details-icons__like-icon">
-              <HeartIcon
-              // className={setLikeIconStyle()}
-              // onClick={() =>
-              //   neededSong && user.favorites.includes(neededSong.id)
-              //     ? dispatch(removeFromFavorites(neededSong.id))
-              //     : dispatch(addToFavorites(neededSong.id))
-              // }
-              />
-            </div>
+            <HeartIcon
+              className={setLikeIconStyle()}
+              onClick={() =>
+                neededSong && user.favorites.includes(neededSong.id)
+                  ? dispatch(removeFromFavorites(neededSong.id))
+                  : dispatch(addToFavorites(neededSong?.id || ""))
+              }
+            />
           </div>
         </div>
       </section>

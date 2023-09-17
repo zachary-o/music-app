@@ -8,6 +8,7 @@
 }
 
 .cover-song-info {
+  width: 90%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -55,8 +56,10 @@
 
 .artist-title {
   display: flex;
+  width: 70%;
   flex-direction: column;
   gap: 5px;
+  cursor: pointer;
 }
 
 .artist-title p:first-child {
