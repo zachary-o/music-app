@@ -29,6 +29,7 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 85%;
+  cursor: pointer;
 }
 
 .song-info h4 {

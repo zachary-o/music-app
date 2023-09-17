@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import {
@@ -29,6 +30,7 @@ const SongCard: FC<ISongCardProps> = ({
   const { isPlaying, allSongs } = useAppSelector((state) => state.song);
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // TOGGLE PLAY PAUSE ICONS ON CLICK
   const togglePlaying = () => {
@@ -66,7 +68,7 @@ const SongCard: FC<ISongCardProps> = ({
           )}
         </div>
       </div>
-      <div className="song-info-container">
+      <div className="song-info-container" onClick={() => navigate(`/${id}`)}>
         <div className="song-info">
           <h4>{title}</h4>
           <h5>{artist}</h5>
