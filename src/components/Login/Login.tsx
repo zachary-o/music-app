@@ -1,7 +1,11 @@
 import { FC, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
-import { loginUser, registerUser } from "../../redux/features/user/userSlice";
+import {
+  loginUser,
+  registerUser,
+  setNewUserData,
+} from "../../redux/features/user/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
@@ -72,6 +76,7 @@ const Login: FC = () => {
           onClick={() => {
             setAuthType(true);
             setFormData({ userName: "", password: "" });
+            dispatch(setNewUserData(user.error === ""));
           }}
         >
           Sign In
@@ -81,15 +86,21 @@ const Login: FC = () => {
           onClick={() => {
             setAuthType(false);
             setFormData({ userName: "", password: "" });
+            dispatch(setNewUserData(user.error === ""));
           }}
         >
           Sign Up
         </button>
       </div>
       <div className="login-form-container">
+        <div className="error-container">
+          {errorMessage && (
+            <div className="error" role="alert">
+              {errorMessage}
+            </div>
+          )}
+        </div>
         <form action="">
-          {errorMessage && <div className="error">{errorMessage}</div>}
-
           <label htmlFor="login">Username / Email</label>
           <input
             type="text"
