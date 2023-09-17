@@ -13,6 +13,7 @@
 
 .login-logo {
   width: 249px;
+  cursor: pointer;
 }
 
 /* LOGIN / SIGNUP BUTTONS */
@@ -196,7 +197,7 @@
 
 /* ERROR */
 .error-container {
-  height: 30px; 
+  height: 30px;
   overflow: hidden;
 }
 

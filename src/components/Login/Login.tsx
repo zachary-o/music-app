@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/app/hooks";
 import {
   loginUser,
   registerUser,
-  setNewUserData,
+  resetUserError,
 } from "../../redux/features/user/userSlice";
 
 import { useNavigate } from "react-router-dom";
@@ -24,8 +24,6 @@ const Login: FC = () => {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const errorMessage = useAppSelector((state) => state.user.error);
-
-  console.log("USER: ", user);
 
   // USER LOGIN FUNCTION
   const handleLogin = (event: React.FormEvent) => {
@@ -69,14 +67,19 @@ const Login: FC = () => {
 
   return (
     <div className="login-container">
-      <img src={logo} alt="logo" className="login-logo" />
+      <img
+        src={logo}
+        alt="logo"
+        className="login-logo"
+        onClick={() => navigate("/")}
+      />
       <div className="login-btns">
         <button
           className={authType ? "login-btn active" : "login-btn"}
           onClick={() => {
             setAuthType(true);
             setFormData({ userName: "", password: "" });
-            dispatch(setNewUserData(user.error === ""));
+            dispatch(resetUserError());
           }}
         >
           Sign In
@@ -86,7 +89,7 @@ const Login: FC = () => {
           onClick={() => {
             setAuthType(false);
             setFormData({ userName: "", password: "" });
-            dispatch(setNewUserData((user.error = "")));
+            dispatch(resetUserError());
           }}
         >
           Sign Up
