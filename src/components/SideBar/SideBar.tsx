@@ -24,7 +24,12 @@ const SideBar: FC = () => {
 
   return (
     <aside className="sidebar-container">
-      <img src={logo} alt="" className="sidebar-logo" />
+      <img
+        src={logo}
+        alt="logo-icon"
+        className="sidebar-logo"
+        onClick={() => navigate("/")}
+      />
       <section className="links-container">
         <div className="home-link" onClick={() => navigate("/")}>
           <HomeIcon className="link-icon" />

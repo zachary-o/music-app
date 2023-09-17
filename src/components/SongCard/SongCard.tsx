@@ -23,7 +23,6 @@ const SongCard: FC<ISongCardProps> = ({
   id,
   title,
   albumName,
-  songUrl,
   coverUrl,
   artist,
 }) => {
@@ -68,8 +67,8 @@ const SongCard: FC<ISongCardProps> = ({
           )}
         </div>
       </div>
-      <div className="song-info-container" onClick={() => navigate(`/${id}`)}>
-        <div className="song-info">
+      <div className="song-info-container">
+        <div className="song-info" onClick={() => navigate(`/${id}`)}>
           <h4>{title}</h4>
           <h5>{artist}</h5>
           <p>{albumName}</p>
