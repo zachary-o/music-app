@@ -86,7 +86,7 @@ const Login: FC = () => {
           onClick={() => {
             setAuthType(false);
             setFormData({ userName: "", password: "" });
-            dispatch(setNewUserData(user.error === ""));
+            dispatch(setNewUserData((user.error = "")));
           }}
         >
           Sign Up

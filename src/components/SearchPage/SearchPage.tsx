@@ -8,11 +8,11 @@ import {
   setCurrentSong,
   setSongIndex,
 } from "../../redux/features/song/songSlice";
-
-import SongCard from "../SongCard/SongCard";
+import { resetUserError } from "../../redux/features/user/userSlice";
 
 import { ISong } from "../../interfaces";
 
+import SongCard from "../SongCard/SongCard";
 import "./styles.css";
 
 const SearchPage = () => {
@@ -28,6 +28,7 @@ const SearchPage = () => {
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
+    dispatch(resetUserError());
     dispatch(setIsPlaying(null));
     dispatch(setIsShowModal(false));
     dispatch(setSongIndex(0));
@@ -61,6 +62,7 @@ const SearchPage = () => {
         <div className="auth-buttons-container">
           <button
             onClick={() => {
+              dispatch(resetUserError());
               navigate("/login");
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));
@@ -73,6 +75,7 @@ const SearchPage = () => {
           <button
             onClick={() => {
               navigate("/login");
+              dispatch(resetUserError());
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));
               dispatch(setSongIndex(0));

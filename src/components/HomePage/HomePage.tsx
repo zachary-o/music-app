@@ -7,6 +7,7 @@ import {
   setCurrentSong,
   setSongIndex,
 } from "../../redux/features/song/songSlice";
+import { resetUserError } from "../../redux/features/user/userSlice";
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,12 +18,13 @@ import "./styles.css";
 const HomePage: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
+  const user = useAppSelector((state) => state.user);
   const allSongs = useAppSelector((state) => state.song.allSongs);
 
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
+    dispatch(resetUserError());
     dispatch(setIsPlaying(null));
     dispatch(setIsShowModal(false));
     dispatch(setSongIndex(0));
@@ -32,15 +34,16 @@ const HomePage: FC = () => {
 
   return (
     <main className="homepage-container">
-      {user.userName ? (
+      {user.user.userName ? (
         <div className="logged-user-container">
-          <h2>Hello, {user.userName}</h2>
+          <h2>Hello, {user.user.userName}</h2>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <div className="auth-buttons-container">
           <button
             onClick={() => {
+              dispatch(resetUserError());
               navigate("/login");
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));
@@ -52,6 +55,7 @@ const HomePage: FC = () => {
           </button>
           <button
             onClick={() => {
+              dispatch(resetUserError());
               navigate("/login");
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));

@@ -151,6 +151,9 @@ const userSlice = createSlice({
       state.error = "";
       state.isLoading = false;
     },
+    resetUserError: (state) => {
+      state.error = "";
+    },
   },
   extraReducers: (builder) => {
     // Login User
@@ -226,9 +229,9 @@ const userSlice = createSlice({
     builder.addCase(removeFromFavorites.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || "Something went wrong";
-    })
+    });
   },
 });
 
 export default userSlice.reducer;
-export const { setNewUserData } = userSlice.actions;
+export const { setNewUserData, resetUserError } = userSlice.actions;

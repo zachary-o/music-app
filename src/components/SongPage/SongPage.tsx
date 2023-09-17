@@ -10,6 +10,7 @@ import {
 import {
   addToFavorites,
   removeFromFavorites,
+  resetUserError,
 } from "../../redux/features/user/userSlice";
 
 import { PlayIcon, PauseIcon, HeartIcon } from "@heroicons/react/24/outline";
@@ -28,10 +29,6 @@ const SongPage = () => {
     (song) => song.id === songId
   );
 
-  useEffect(() => {
-    console.log(neededSong);
-  }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("localStorageUser");
     sessionStorage.removeItem("sessionStorageUser");
@@ -39,6 +36,7 @@ const SongPage = () => {
     dispatch(setIsShowModal(false));
     dispatch(setSongIndex(0));
     dispatch(setCurrentSong(allSongs[0]));
+    dispatch(resetUserError());
     navigate("/login");
   };
 
@@ -78,6 +76,7 @@ const SongPage = () => {
         <div className="auth-buttons-container">
           <button
             onClick={() => {
+              dispatch(resetUserError());
               navigate("/login");
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));
@@ -89,6 +88,7 @@ const SongPage = () => {
           </button>
           <button
             onClick={() => {
+              dispatch(resetUserError());
               navigate("/login");
               dispatch(setIsPlaying(null));
               dispatch(setIsShowModal(false));
